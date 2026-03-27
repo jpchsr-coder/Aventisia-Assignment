@@ -59,9 +59,9 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-end z-50">
-      <div className="bg-white w-full max-w-2xl h-full overflow-y-auto transform transition-transform duration-300 ease-in-out">
+      <div className="bg-white w-full max-w-2xl h-screen overflow-hidden transform transition-transform duration-300 ease-in-out flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
           <div>
             <h2 className="text-xl font-semibold text-gray-900">
               {isEdit ? 'Edit Knowledge Base' : 'Create New Knowledge Base'}
@@ -81,7 +81,7 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6">
+        <form onSubmit={handleSubmit} className="p-6 flex-1 overflow-y-auto">
           <div className="space-y-6">
             {/* Name Field */}
             <div>
@@ -97,7 +97,7 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
                 onChange={handleChange}
                 placeholder="Name"
                 required
-                className={`w-full ${isEdit ? 'bg-gray-100' : ''} px-3 py-2 border border-gray-300 rounded-lg focus:outline-none ${isEdit ? '' : 'focus:ring-2 focus:ring-purple-500'} focus:border-transparent`}
+                className={`w-full ${isEdit ? 'bg-gray-100' : ''} px-3 py-2 border border-gray-300 rounded-lg focus:outline-none ${isEdit} focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
               />
             </div>
 
@@ -157,24 +157,24 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
               </select>
             </div>
           </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-end space-x-3 mt-8">
-            <button
-              type="button"
-              onClick={handleClose}
-              className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-            >
-              {isEdit ? 'Update' : 'Create'}
-            </button>
-          </div>
         </form>
+
+        {/* Action Buttons */}
+        <div className="flex justify-end space-x-3 p-6 border-t border-gray-200 bg-white flex-shrink-0">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            {isEdit ? 'Update' : 'Create'}
+          </button>
+        </div>
       </div>
     </div>
   );

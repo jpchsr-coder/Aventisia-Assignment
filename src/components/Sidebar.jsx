@@ -25,13 +25,6 @@ const Sidebar = () => {
         { icon: '📖', label: 'Knowledge Base', active: true },
         { icon: '�', label: 'Key Store', active: false }
       ]
-    },
-    {
-      title: 'ADMIN',
-      items: [
-        { icon: '🏢', label: 'Tenant', active: false },
-        { icon: '�', label: 'Integrations', active: false }
-      ]
     }
   ];
 
@@ -78,7 +71,7 @@ const Sidebar = () => {
                       key={item.label}
                       className={`w-full text-left px-4 py-2 rounded-lg transition-colors duration-200 flex items-center relative ${
                         item.active
-                          ? 'bg-purple-100 text-purple-700 border-l-4 border-l-purple-600'
+                          ? 'bg-purple-100 text-indigo-700 border-l-4 border-l-indigo-600'
                           : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                       }`}
                     >
