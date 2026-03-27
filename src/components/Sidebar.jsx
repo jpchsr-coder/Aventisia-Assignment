@@ -46,7 +46,7 @@ const Sidebar = () => {
       <div className={`fixed lg:relative bg-white border-r border-gray-200 min-h-screen z-50 transition-transform duration-300 ease-in-out ${
         isCollapsed ? '-translate-x-full lg:translate-x-0' : 'translate-x-0'
       } ${isCollapsed ? 'lg:w-20' : 'w-64'}`}>
-        <div className="p-6">
+        <div className="p-4">
           {/* Logo Section */}
           <div className="flex items-center justify-between mb-4">
             
@@ -66,7 +66,7 @@ const Sidebar = () => {
               <div key={category.title}>
                 {/* Category Title */}
                 {!isCollapsed && (
-                  <h3 className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                  <h3 className="px-1 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
                     {category.title}
                   </h3>
                 )}
@@ -76,9 +76,9 @@ const Sidebar = () => {
                   {category.items.map((item) => (
                     <button
                       key={item.label}
-                      className={`w-full text-left px-4 py-2 rounded-lg transition-colors duration-200 flex items-center ${
+                      className={`w-full text-left px-4 py-2 rounded-lg transition-colors duration-200 flex items-center relative ${
                         item.active
-                          ? 'bg-indigo-600 text-white'
+                          ? 'bg-purple-100 text-purple-700 border-l-4 border-l-purple-600'
                           : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                       }`}
                     >
