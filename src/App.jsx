@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
-import CreateNewModal from './components/CreateNewModal';
+import CreateKnowledgeBaseForm from './components/CreateKnowledgeBaseForm';
 
 function App() {
   const modalOpen = useSelector((state) => state.modal.isOpen);
@@ -15,7 +15,7 @@ function App() {
         <Sidebar />
         <KnowledgeBasePage />
       </div>
-      <CreateNewModal isOpen={modalOpen} />
+      {modalOpen && <CreateKnowledgeBaseForm />}
     </div>
   );
 }
