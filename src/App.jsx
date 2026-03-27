@@ -4,9 +4,13 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
 import CreateKnowledgeBaseForm from './components/CreateKnowledgeBaseForm';
+import EditKnowledgeBaseForm from './components/EditKnowledgeBaseForm';
+import DeleteConfirmationModal from './components/DeleteConfirmationModal';
 
 function App() {
   const modalOpen = useSelector((state) => state.modal.isOpen);
+  const modalType = useSelector((state) => state.modal.modalType);
+  const modalData = useSelector((state) => state.modal.data);
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
@@ -15,7 +19,9 @@ function App() {
         <Sidebar />
         <KnowledgeBasePage />
       </div>
-      {modalOpen && <CreateKnowledgeBaseForm />}
+      {modalOpen && modalType === 'create' && <CreateKnowledgeBaseForm />}
+      {modalOpen && modalType === 'edit' && <EditKnowledgeBaseForm knowledgeBase={modalData} isOpen={true} />}
+      {modalOpen && modalType === 'delete' && <DeleteConfirmationModal knowledgeBase={modalData} isOpen={true} />}
     </div>
   );
 }

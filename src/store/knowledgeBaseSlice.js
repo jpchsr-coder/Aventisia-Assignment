@@ -61,6 +61,21 @@ const knowledgeBaseSlice = createSlice({
       };
       state.knowledgeBases.unshift(newKnowledgeBase);
     },
+    updateKnowledgeBase: (state, action) => {
+      const { id, ...updateData } = action.payload;
+      const index = state.knowledgeBases.findIndex(kb => kb.id === id);
+      if (index !== -1) {
+        state.knowledgeBases[index] = {
+          ...state.knowledgeBases[index],
+          title: updateData.name,
+          description: updateData.description || state.knowledgeBases[index].description
+        };
+      }
+    },
+    deleteKnowledgeBase: (state, action) => {
+      const id = action.payload;
+      state.knowledgeBases = state.knowledgeBases.filter(kb => kb.id !== id);
+    },
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
       state.currentPage = 1; // Reset to first page when searching
@@ -75,7 +90,7 @@ const knowledgeBaseSlice = createSlice({
   },
 });
 
-export const { addKnowledgeBase, setSearchTerm, setCurrentPage, setRowsPerPage } = knowledgeBaseSlice.actions;
+export const { addKnowledgeBase, updateKnowledgeBase, deleteKnowledgeBase, setSearchTerm, setCurrentPage, setRowsPerPage } = knowledgeBaseSlice.actions;
 
 // Selectors
 export const selectFilteredKnowledgeBases = (state) => {

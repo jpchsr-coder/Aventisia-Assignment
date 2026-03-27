@@ -28,6 +28,14 @@ const KnowledgeBasePage = () => {
     dispatch(setRowsPerPage(parseInt(rowsPerPage)));
   };
 
+  const handleEdit = (article) => {
+    dispatch(openModal({ type: 'edit', data: article }));
+  };
+
+  const handleDelete = (article) => {
+    dispatch(openModal({ type: 'delete', data: article }));
+  };
+
   return (
     <div className="flex-1 overflow-hidden bg-gray-50 flex flex-col">
       <div className="px-6 flex flex-col flex-1 min-h-0">
@@ -48,7 +56,7 @@ const KnowledgeBasePage = () => {
               </svg>
             </div>
             <button
-              onClick={() => dispatch(openModal())}
+              onClick={() => dispatch(openModal({ type: 'create' }))}
               className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -67,6 +75,8 @@ const KnowledgeBasePage = () => {
               title={article.title}
               description={article.description}
               createdOn={article.createdOn}
+              onEdit={() => handleEdit(article)}
+              onDelete={() => handleDelete(article)}
             />
           ))}
         </div>
