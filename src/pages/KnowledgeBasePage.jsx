@@ -9,10 +9,10 @@ const KnowledgeBasePage = () => {
   const knowledgeBaseArticles = useSelector((state) => state.knowledgeBase.knowledgeBases);
 
   return (
-    <div className="flex-1 overflow-y-auto bg-gray-50 flex flex-col">
-      <div className="p-6 flex-1 flex flex-col">
+    <div className="flex-1 overflow-hidden bg-gray-50 flex flex-col">
+      <div className="px-6 flex flex-col flex-1 min-h-0">
         {/* Header with Search and Create New */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center pt-6 mb-6 flex-shrink-0">
           <h1 className="text-2xl font-bold text-gray-900">Knowledge Base</h1>
           <div className="flex items-center space-x-4">
             <div className="relative">
@@ -38,7 +38,7 @@ const KnowledgeBasePage = () => {
         </div>
 
         {/* Knowledge Base Cards Grid */}
-        <div className="grid overflow-y-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-y-auto pb-6 flex-1 min-h-0">
           {knowledgeBaseArticles.map((article) => (
             <KnowledgeBaseCard
               key={article.id}
@@ -50,8 +50,10 @@ const KnowledgeBasePage = () => {
         </div>
       </div>
 
-      {/* Pagination at bottom */}
-      <Pagination />
+      {/* Pagination at very bottom */}
+      <div className="flex-shrink-0">
+        <Pagination />
+      </div>
     </div>
   );
 };
