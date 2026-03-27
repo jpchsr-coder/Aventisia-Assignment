@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../store/modalSlice';
+import { addKnowledgeBase } from '../store/knowledgeBaseSlice';
 
 const CreateKnowledgeBaseForm = () => {
   const dispatch = useDispatch();
@@ -21,9 +22,17 @@ const CreateKnowledgeBaseForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Creating knowledge base:', formData);
+    // Add the new knowledge base to the store
+    dispatch(addKnowledgeBase(formData));
+    // Close the modal
     dispatch(closeModal());
+    // Reset form data
+    setFormData({
+      name: '',
+      description: '',
+      vectorStore: 'Qdrant',
+      llmEmbeddingModel: 'text-embedding-ada-002'
+    });
   };
 
   const handleClose = () => {
@@ -31,10 +40,10 @@ const CreateKnowledgeBaseForm = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg w-full max-w-2xl mx-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-end z-50">
+      <div className="bg-white w-full max-w-2xl h-full overflow-y-auto transform transition-transform duration-300 ease-in-out">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
           <div>
             <h2 className="text-xl font-semibold text-gray-900">Create New Knowledge Base</h2>
             <p className="text-sm text-gray-600 mt-1">Best for quick answers from documents, websites and text files.</p>

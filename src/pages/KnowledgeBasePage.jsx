@@ -1,50 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../store/modalSlice';
 import KnowledgeBaseCard from '../components/KnowledgeBaseCard';
 import Pagination from '../components/Pagination';
 
 const KnowledgeBasePage = () => {
   const dispatch = useDispatch();
-
-  const knowledgeBaseArticles = [
-    {
-      id: 1,
-      title: 'Test',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-      createdOn: '14/07/2025'
-    },
-    {
-      id: 2,
-      title: 'Test',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-      createdOn: '14/07/2025'
-    },
-    {
-      id: 3,
-      title: 'Test',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-      createdOn: '14/07/2025'
-    },
-    {
-      id: 4,
-      title: 'Test',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-      createdOn: '14/07/2025'
-    },
-    {
-      id: 5,
-      title: 'Test',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-      createdOn: '14/07/2025'
-    },
-    {
-      id: 6,
-      title: 'Test',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-      createdOn: '14/07/2025'
-    }
-  ];
+  const knowledgeBaseArticles = useSelector((state) => state.knowledgeBase.knowledgeBases);
 
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50 flex flex-col">
@@ -76,7 +38,7 @@ const KnowledgeBasePage = () => {
         </div>
 
         {/* Knowledge Base Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
+        <div className="grid overflow-y-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
           {knowledgeBaseArticles.map((article) => (
             <KnowledgeBaseCard
               key={article.id}
