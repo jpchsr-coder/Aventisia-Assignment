@@ -15,10 +15,15 @@ const KnowledgeBasePage = () => {
   const paginationInfo = useSelector(selectPaginationInfo);
 
   const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchInput(value);
-    dispatch(setSearchTerm(value));
-  };
+  let value = e.target.value;
+
+  value = value.replace(/^\s+/, "");
+
+  value = value.replace(/\s{2,}/g, " ");
+
+  setSearchInput(value);
+  dispatch(setSearchTerm(value));
+};
 
   const handleClearSearch = () => {
     setSearchInput('');

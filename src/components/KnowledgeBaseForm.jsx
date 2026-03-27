@@ -31,14 +31,20 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
     }
   }, [isEdit, knowledgeBase, isOpen]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+ const handleChange = (e) => {
+  const { name, value } = e.target;
 
+  let cleanedValue = value;
+
+  cleanedValue = cleanedValue.replace(/^\s+/, "");
+
+  cleanedValue = cleanedValue.replace(/\s{2,}/g, " ");
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: cleanedValue,
+  }));
+};
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -81,8 +87,8 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 flex-1 overflow-y-auto">
-          <div className="space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 flex-1 overflow-y-auto flex flex-col">
+          <div className="space-y-6 flex-1">
             {/* Name Field */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -157,24 +163,24 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
               </select>
             </div>
           </div>
-        </form>
 
-        {/* Action Buttons */}
-        <div className="flex justify-end space-x-3 p-6 border-t border-gray-200 bg-white flex-shrink-0">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
-          >
-            {isEdit ? 'Update' : 'Create'}
-          </button>
-        </div>
+          {/* Action Buttons */}
+          <div className="flex justify-end space-x-3 mt-6 flex-shrink-0">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              {isEdit ? 'Update' : 'Create'}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -67,7 +67,7 @@ const KnowledgeBaseCard = ({ title, description, createdOn, onEdit, onDelete }) 
       
       <h3 className="text-base font-medium text-gray-900 mb-2 pr-6">{title}</h3>
       
-      <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed flex-grow">
+      <p title={description} className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed flex-grow">
         {description}
       </p>
       
