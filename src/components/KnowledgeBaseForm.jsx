@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../store/modalSlice';
-import { addKnowledgeBase } from '../store/knowledgeBaseSlice';
+import { addKnowledgeBase, updateKnowledgeBase } from '../store/knowledgeBaseSlice';
 
-const CreateKnowledgeBaseForm = () => {
+const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: '',
@@ -11,6 +11,25 @@ const CreateKnowledgeBaseForm = () => {
     vectorStore: 'Qdrant',
     llmEmbeddingModel: 'text-embedding-ada-002'
   });
+
+  useEffect(() => {
+    if (isEdit && knowledgeBase) {
+      setFormData({
+        name: knowledgeBase.title,
+        description: knowledgeBase.description.replace('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.', ''),
+        vectorStore: 'Qdrant',
+        llmEmbeddingModel: 'text-embedding-ada-002'
+      });
+    } else {
+      // Reset form for create mode
+      setFormData({
+        name: '',
+        description: '',
+        vectorStore: 'Qdrant',
+        llmEmbeddingModel: 'text-embedding-ada-002'
+      });
+    }
+  }, [isEdit, knowledgeBase, isOpen]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,22 +41,21 @@ const CreateKnowledgeBaseForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add the new knowledge base to the store
-    dispatch(addKnowledgeBase(formData));
-    // Close the modal
+    
+    if (isEdit && knowledgeBase) {
+      dispatch(updateKnowledgeBase({ id: knowledgeBase.id, ...formData }));
+    } else {
+      dispatch(addKnowledgeBase(formData));
+    }
+    
     dispatch(closeModal());
-    // Reset form data
-    setFormData({
-      name: '',
-      description: '',
-      vectorStore: 'Qdrant',
-      llmEmbeddingModel: 'text-embedding-ada-002'
-    });
   };
 
   const handleClose = () => {
     dispatch(closeModal());
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-end z-50">
@@ -45,8 +63,12 @@ const CreateKnowledgeBaseForm = () => {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">Create New Knowledge Base</h2>
-            <p className="text-sm text-gray-600 mt-1">Best for quick answers from documents, websites and text files.</p>
+            <h2 className="text-xl font-semibold text-gray-900">
+              {isEdit ? 'Edit Knowledge Base' : 'Create New Knowledge Base'}
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">
+              {isEdit ? 'Update your knowledge base information.' : 'Best for quick answers from documents, websites and text files.'}
+            </p>
           </div>
           <button
             onClick={handleClose}
@@ -64,10 +86,10 @@ const CreateKnowledgeBaseForm = () => {
             {/* Name Field */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Name <span className="text-red-500">*</span>
-                <span className="text-xs text-gray-500 ml-2">(Cannot be edited later)</span>
+                Name {!isEdit && <span className="text-red-500">*</span>}
+                {!isEdit && <span className="text-xs text-gray-500 ml-2">(Cannot be edited later)</span>}
               </label>
-              <input
+              <input readOnly={isEdit}
                 type="text"
                 id="name"
                 name="name"
@@ -75,7 +97,7 @@ const CreateKnowledgeBaseForm = () => {
                 onChange={handleChange}
                 placeholder="Name"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className={`w-full ${isEdit ? 'bg-gray-100' : ''} px-3 py-2 border border-gray-300 rounded-lg focus:outline-none ${isEdit ? '' : 'focus:ring-2 focus:ring-purple-500'} focus:border-transparent`}
               />
             </div>
 
@@ -98,14 +120,14 @@ const CreateKnowledgeBaseForm = () => {
             {/* Vector Store Field */}
             <div>
               <label htmlFor="vectorStore" className="block text-sm font-medium text-gray-700 mb-2">
-                Vector Store <span className="text-red-500">*</span>
+                Vector Store {!isEdit && <span className="text-red-500">*</span>}
               </label>
               <select
                 id="vectorStore"
                 name="vectorStore"
                 value={formData.vectorStore}
                 onChange={handleChange}
-                required
+                required={!isEdit}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
               >
                 <option value="Qdrant">Qdrant</option>
@@ -118,14 +140,14 @@ const CreateKnowledgeBaseForm = () => {
             {/* LLM Embedding Model Field */}
             <div>
               <label htmlFor="llmEmbeddingModel" className="block text-sm font-medium text-gray-700 mb-2">
-                LLM Embedding Model <span className="text-red-500">*</span>
+                LLM Embedding Model {!isEdit && <span className="text-red-500">*</span>}
               </label>
               <select
                 id="llmEmbeddingModel"
                 name="llmEmbeddingModel"
                 value={formData.llmEmbeddingModel}
                 onChange={handleChange}
-                required
+                required={!isEdit}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
               >
                 <option value="text-embedding-ada-002">text-embedding-ada-002</option>
@@ -147,9 +169,9 @@ const CreateKnowledgeBaseForm = () => {
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
             >
-              Create
+              {isEdit ? 'Update' : 'Create'}
             </button>
           </div>
         </form>
@@ -158,4 +180,4 @@ const CreateKnowledgeBaseForm = () => {
   );
 };
 
-export default CreateKnowledgeBaseForm;
+export default KnowledgeBaseForm;

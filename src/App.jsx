@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
-import CreateKnowledgeBaseForm from './components/CreateKnowledgeBaseForm';
-import EditKnowledgeBaseForm from './components/EditKnowledgeBaseForm';
+import KnowledgeBaseForm from './components/KnowledgeBaseForm';
 import DeleteConfirmationModal from './components/DeleteConfirmationModal';
 
 function App() {
@@ -19,8 +18,13 @@ function App() {
         <Sidebar />
         <KnowledgeBasePage />
       </div>
-      {modalOpen && modalType === 'create' && <CreateKnowledgeBaseForm />}
-      {modalOpen && modalType === 'edit' && <EditKnowledgeBaseForm knowledgeBase={modalData} isOpen={true} />}
+      {modalOpen && (modalType === 'create' || modalType === 'edit') && (
+        <KnowledgeBaseForm 
+          knowledgeBase={modalData} 
+          isOpen={true} 
+          isEdit={modalType === 'edit'}
+        />
+      )}
       {modalOpen && modalType === 'delete' && <DeleteConfirmationModal knowledgeBase={modalData} isOpen={true} />}
     </div>
   );
