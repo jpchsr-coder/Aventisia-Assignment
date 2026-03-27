@@ -97,7 +97,7 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
                 onChange={handleChange}
                 placeholder="Name"
                 required
-                className={`w-full ${isEdit ? 'bg-gray-100' : ''} px-3 py-2 border border-gray-300 rounded-lg focus:outline-none ${isEdit} focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
+                className={`w-full ${isEdit ? 'bg-gray-100' : ''} px-3 py-2 border border-gray-300 rounded-lg focus:outline-none ${isEdit ? 'focus:ring-2 focus:ring-primary focus:border-transparent' : 'focus:ring-2 focus:ring-primary focus:border-transparent'}`}
               />
             </div>
 
@@ -113,7 +113,7 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
                 onChange={handleChange}
                 placeholder="Description"
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
               />
             </div>
 
@@ -128,7 +128,7 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
                 value={formData.vectorStore}
                 onChange={handleChange}
                 required={!isEdit}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
               >
                 <option value="Qdrant">Qdrant</option>
                 <option value="Pinecone">Pinecone</option>
@@ -148,7 +148,7 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
                 value={formData.llmEmbeddingModel}
                 onChange={handleChange}
                 required={!isEdit}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
               >
                 <option value="text-embedding-ada-002">text-embedding-ada-002</option>
                 <option value="text-embedding-3-small">text-embedding-3-small</option>
@@ -170,7 +170,7 @@ const KnowledgeBaseForm = ({ knowledgeBase, isOpen, isEdit }) => {
           </button>
           <button
             type="submit"
-            className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
           >
             {isEdit ? 'Update' : 'Create'}
           </button>
