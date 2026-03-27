@@ -47,8 +47,8 @@ const KnowledgeBasePage = () => {
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto bg-gray-50">
-      <div className="p-6">
+    <div className="flex-1 overflow-y-auto bg-gray-50 flex flex-col">
+      <div className="p-6 flex-1 flex flex-col">
         {/* Header with Search and Create New */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Knowledge Base</h1>
@@ -76,7 +76,7 @@ const KnowledgeBasePage = () => {
         </div>
 
         {/* Knowledge Base Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
           {knowledgeBaseArticles.map((article) => (
             <KnowledgeBaseCard
               key={article.id}
@@ -86,10 +86,10 @@ const KnowledgeBasePage = () => {
             />
           ))}
         </div>
-
-        {/* Pagination */}
-        <Pagination />
       </div>
+
+      {/* Pagination at bottom */}
+      <Pagination />
     </div>
   );
 };
