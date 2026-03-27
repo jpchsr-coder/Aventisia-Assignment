@@ -38,7 +38,10 @@ const initialState = {
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
       createdOn: '14/07/2025'
     }
-  ]
+  ],
+  searchTerm: '',
+  currentPage: 1,
+  rowsPerPage: 10
 };
 
 const knowledgeBaseSlice = createSlice({
@@ -47,7 +50,7 @@ const knowledgeBaseSlice = createSlice({
   reducers: {
     addKnowledgeBase: (state, action) => {
       const newKnowledgeBase = {
-        id: Date.now(), // Simple unique ID
+        id: Date.now(),
         title: action.payload.name,
         description: action.payload.description || 'No description provided',
         createdOn: new Date().toLocaleDateString('en-GB', {
@@ -57,9 +60,60 @@ const knowledgeBaseSlice = createSlice({
         }).replace(/\//g, '/')
       };
       state.knowledgeBases.unshift(newKnowledgeBase);
+    },
+    setSearchTerm: (state, action) => {
+      state.searchTerm = action.payload;
+      state.currentPage = 1; // Reset to first page when searching
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+    setRowsPerPage: (state, action) => {
+      state.rowsPerPage = action.payload;
+      state.currentPage = 1; // Reset to first page when changing rows per page
     }
   },
 });
 
-export const { addKnowledgeBase } = knowledgeBaseSlice.actions;
+export const { addKnowledgeBase, setSearchTerm, setCurrentPage, setRowsPerPage } = knowledgeBaseSlice.actions;
+
+// Selectors
+export const selectFilteredKnowledgeBases = (state) => {
+  const { knowledgeBases, searchTerm } = state.knowledgeBase;
+  if (!searchTerm) return knowledgeBases;
+  
+  return knowledgeBases.filter(kb => 
+    kb.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    kb.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+};
+
+export const selectPaginatedKnowledgeBases = (state) => {
+  const filtered = selectFilteredKnowledgeBases(state);
+  const { currentPage, rowsPerPage } = state.knowledgeBase;
+  
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  
+  return filtered.slice(startIndex, endIndex);
+};
+
+export const selectPaginationInfo = (state) => {
+  const filtered = selectFilteredKnowledgeBases(state);
+  const { currentPage, rowsPerPage } = state.knowledgeBase;
+  
+  const totalPages = Math.ceil(filtered.length / rowsPerPage);
+  const startIndex = (currentPage - 1) * rowsPerPage + 1;
+  const endIndex = Math.min(currentPage * rowsPerPage, filtered.length);
+  
+  return {
+    totalRows: filtered.length,
+    currentPage,
+    totalPages,
+    rowsPerPage,
+    startIndex: filtered.length > 0 ? startIndex : 0,
+    endIndex: filtered.length > 0 ? endIndex : 0
+  };
+};
+
 export default knowledgeBaseSlice.reducer;
