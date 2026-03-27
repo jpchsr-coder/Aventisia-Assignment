@@ -1,7 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // Auto-collapse sidebar on small screens
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) { // lg breakpoint
+        setIsCollapsed(true);
+      }
+    };
+
+    // Set initial state
+    handleResize();
+
+    // Listen for window resize
+    window.addEventListener('resize', handleResize);
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const menuCategories = [
     {
@@ -77,7 +94,7 @@ const Sidebar = () => {
                     >
                       <span className="text-lg flex-shrink-0 w-5 text-center">{item.icon}</span>
                       {!isCollapsed && (
-                        <span className="hidden lg:block font-medium text-sm ml-3">{item.label}</span>
+                        <span className={`${isCollapsed ? 'hidden lg:block' : 'block'} font-medium text-sm ml-3`}>{item.label}</span>
                       )}
                     </button>
                   ))}
@@ -94,7 +111,7 @@ const Sidebar = () => {
                   <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
-                  <span className="hidden lg:block font-medium">Logout</span>
+                  <span className={`${isCollapsed ? 'hidden lg:block' : 'block'} font-medium`}>Logout</span>
                 </button>
               </div>
             </div>
@@ -111,8 +128,21 @@ const Sidebar = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
+
+      {/* Mobile close button inside sidebar */}
+      {!isCollapsed && (
+        <button
+          onClick={() => setIsCollapsed(true)}
+          className="lg:hidden absolute top-4 right-4 z-20 p-2 bg-white rounded-lg shadow-md border border-gray-200"
+        >
+          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      )}
     </>
   );
 };
 
 export default Sidebar;
+
